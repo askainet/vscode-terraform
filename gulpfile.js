@@ -16,6 +16,7 @@ var helpers = require('./tasks/helpers');
 
 // load tasks
 require("./tasks/auto-completion-data.task.js");
+require("./tasks/provider-documentation.task.js");
 
 // generate hcl wrapper
 gulp.task('generate-hcl-container', (done) => {
