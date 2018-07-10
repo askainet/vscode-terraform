@@ -19,8 +19,8 @@ gulp.registry(registry);
 // copy autocompletion data
 function copyAutocompletionData() {
     return gulp.src('src/data/*.json')
-    .pipe(using({ prefix: 'Bundling auto-completion data', filesize: true }))
-    .pipe(gulp.dest('out/src/data'));
+        .pipe(using({ prefix: 'Bundling auto-completion data', filesize: true }))
+        .pipe(gulp.dest('out/src/data'));
 }
 
 // copy templates
@@ -33,8 +33,8 @@ function copyHtmlTemplates() {
 // tslint
 function lint() {
     return gulp.src(['src/**/*.ts', 'test/**/*.ts'])
-    .pipe(tslint())
-    .pipe(tslint.report());
+        .pipe(tslint())
+        .pipe(tslint.report());
 }
 gulp.task(lint);
 
@@ -42,18 +42,18 @@ gulp.task(lint);
 function compile() {
     var project = ts.createProject('tsconfig.json');
 
-    return     project.src()
-    .pipe(sourcemaps.init())
-    .pipe(project())
-    .pipe(sourcemaps.mapSources((sourcePath, file) => {
-        let relativeLocation = path.join(path.relative(path.join('out', path.dirname(file.relative)), '.'), 'src/');
-        let relativeLocationToFile = path.join(relativeLocation, sourcePath);
-        return relativeLocationToFile;
-    }))
-    .pipe(sourcemaps.write('.', {
-        includeContent: false
-    }))
-    .pipe(gulp.dest('out'));
+    return project.src()
+        .pipe(sourcemaps.init())
+        .pipe(project())
+        .pipe(sourcemaps.mapSources((sourcePath, file) => {
+            let relativeLocation = path.join(path.relative(path.join('out', path.dirname(file.relative)), '.'), 'src/');
+            let relativeLocationToFile = path.join(relativeLocation, sourcePath);
+            return relativeLocationToFile;
+        }))
+        .pipe(sourcemaps.write('.', {
+            includeContent: false
+        }))
+        .pipe(gulp.dest('out'));
 }
 gulp.task(compile);
 
@@ -71,9 +71,9 @@ gulp.task(test);
 
 function testNoFail() {
     return test()
-    .on('error', (err) => {
-        log.error(`${chalk.red('ERROR')}: ${err.message}`);
-    });
+        .on('error', (err) => {
+            log.error(`${chalk.red('ERROR')}: ${err.message}`);
+        });
 }
 
 // release notes
@@ -89,6 +89,7 @@ if (skipHclHilJs) {
 gulp.task('build',
     gulp.series(
         skipHclHilJs ? [] : [generateHclHilJs],
+        'buildAutocompletionData',
         copyAutocompletionData,
         copyHtmlTemplates,
         generateConstantsKeyfile,
@@ -98,7 +99,7 @@ gulp.task('build',
 // watch
 function watch() {
     return gulp.watch(['src/**/*.ts', 'src/ui/*.html', 'test/**/*.ts'],
-            gulp.series(copyHtmlTemplates, lint, testNoFail, compile));
+        gulp.series(copyHtmlTemplates, lint, testNoFail, compile));
 }
 gulp.task('watch', gulp.series('build', testNoFail, watch));
 
