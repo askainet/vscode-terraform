@@ -197,6 +197,7 @@
     "@types/node": "^6.0.113",
     "@types/uuid": "^3.4.3",
     "chalk": "^2.4.1",
+    "fs-mkdirp-stream": "^1.0.0",
     "gulp": "^4.0.0",
     "gulp-decompress": "^2.0.2",
     "gulp-hub": "^4.2.0",
