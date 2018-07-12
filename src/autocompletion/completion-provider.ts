@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as vscode from 'vscode';
 import { backwardsSearch } from '../helpers';
-import { AstPosition, getTokenAtPosition } from '../index/ast';
+import { AstPosition, AstTokenType, getTokenAtPosition } from '../index/ast';
 import { parseHcl } from '../index/hcl-hil';
 import { IndexAdapter } from "../index/index-adapter";
 import { Section } from "../index/section";
@@ -123,7 +123,7 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
           Offset: 0,
           Filename: ''
         };
-        let token = getTokenAtPosition(ast, pos);
+        let token = getTokenAtPosition(ast, pos, [AstTokenType.STRING, AstTokenType.HEREDOC]);
         if (token) {
           let interpolationCompletions = this.interpolationCompletions(document, position);
           if (interpolationCompletions.length !== 0)
